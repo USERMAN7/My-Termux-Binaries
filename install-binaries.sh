@@ -31,6 +31,7 @@ elif [ $install == "N" ]; then # BRAND NEW PICKY INSTALL!
 	echo "Y/n ?"
 	read -r install2 # Man that's a mangle of elif,ifs.. Should change to cases 
 	if [ $install2 == "Y" ]; then
+		chmod +x *
 	       for i in "${!fields[@]}"; do
 			echo "Would you like to install ${fields[$i]}? (Y/n)"
 			read -r install3
@@ -50,6 +51,7 @@ elif [ $install == "N" ]; then # BRAND NEW PICKY INSTALL!
 			esac
 		done		
 	elif [ $install2 == "y" ]; then
+		chmod +x *
 		for i in "${!fields[@]}"; do
 			echo "Would you like to install ${fields[$i]}? (Y/n)"# Literal copy of code above
 			read -r install3
