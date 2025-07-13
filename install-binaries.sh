@@ -1,72 +1,79 @@
 #!/bin/bash
 # Authour USERMAN7. Purpose of script
 # to make installation of binaries easier.
+red='\033[0;31m' # Red color -- for errors!
+yel='\033[1;33m' # Yellow -- idk using for text..
+green='\033[0;32m' # Green color -- for everything that ends with succes!
+lblue='\033[1;34m' # Light blue -- for name of packages!
+nc='\033[0m' # NO COLOR -- to return the text to original color!
 
  IFS=',' read -r -a fields < .conf
  for i in "${!fields[@]}"; do
      eval "parse$i='${fields[$i]}'"
      done
 
-echo "This is a setting up utility for"
-echo "Installation of programms in this repo"
+echo -e "$yel"This is a setting up utility for"$nc"
+echo -e "$yel"Installation of programms in this repo"$nc"
 
 # Achieved of picky install :)
 
-echo "Would you like to install chdman,flips,librespeed-cli,ytcast?"
-echo "Y/n ?" # I actually removed \n because in most cases it would be better to eye,
+echo -e "$yel""Would you like to install"$nc" "$lblue"chdman,flips,librespeed-cli,ytcast?"$nc""
+echo -e "$green"Y"$nc"/"$red"n"$nc"? # I actually removed \n because in most cases it would be better to eye,
 		# And with small screen res it would just resize automatically
 read -r install # input -r flag for avoiding weird symbols from backspace
 if [ $install == "Y" ]; then # Putting ALL binaries to termux default bin
 	chmod +x *
 	for i in "${!fields[@]}"; do
-		mv ${fields[$i]} /data/data/com.termux/files/usr/bin
+		mv ${fields[$i]} /data/data/com.termux/files/usr/bin 2> error.log || { echo -e "$red""Failed to put binaries to /bin! Exiting! $nc";
+	       	exit 1; }
+		
 	done
 elif [ $install == "y" ]; then # Same thing 
 	chmod +x *
 	for i in "${!fields[@]}"; do
-		mv ${fields[$i]} /data/data/com.termux/files/usr/bin
+		mv ${fields[$i]} /data/data/com.termux/files/usr/bin 2> error.log || { echo -e "$red""Failed to put binaries to /bin! Exiting! $nc";
+	       	exit 1; }
+
 	done
 elif [ $install == "N" ]; then # BRAND NEW PICKY INSTALL!
-	echo "Whould you like to select which binaries you want to install?"
-	echo "Y/n ?"
+	echo -e "$yel""Whould you like to select which binaries you want to install?"$nc
+	echo -e "$green"Y"$nc"/"$red"n"$nc"?
 	read -r install2 # Man that's a mangle of elif,ifs.. Should change to cases 
 	if [ $install2 == "Y" ]; then
-		chmod +x *
 	       for i in "${!fields[@]}"; do
-			echo "Would you like to install ${fields[$i]}? (Y/n)"
+			echo -e "$yel""Would you like to install"$lblue" ${fields[$i]}"$nc"? ("$green"Y"$nc"/"$red"n"$nc")"
 			read -r install3
 			case "$install3" in # added cases
 			 [Yy])
-				 mv "${fields[$i]}" /data/data/com.termux/files/usr/bin || {
-					 echo "Failed to move binary: ${fields[$i]}"
-					 exit 1 # || that code under || triggers only if something fails
+				 mv "${fields[$i]}" /data/data/com.termux/files/usr/bin 2> error.log || {
+					 echo -e "$red"Failed to move binary:"$lblue ${fields[$i]}";
+					 exit 1; # || that code under || triggers only if something fails
 				 }
 				 ;;
 			 [Nn])
-				 echo "Skipping ${fields[$i]}" # picky install!
+				 echo -e "Skipping"$lblue" ${fields[$i]}" # picky install!
 				 ;;
 			      *)
-				 echo "Invalid input. Skipping ${fields[$i]}" # still skipping
+				 echo -e ""$red"Invalid input."$nc" Skipping "$lblue"${fields[$i]}" # still skipping
 			        ;;
 			esac
 		done		
 	elif [ $install2 == "y" ]; then
-		chmod +x *
 		for i in "${!fields[@]}"; do
-			echo "Would you like to install ${fields[$i]}? (Y/n)"# Literal copy of code above
+			echo -e "$yel""Would you like to install"$lblue" ${fields[$i]}"$nc"? ("$green"Y"$nc"/"$red"n"$nc")" # Literal copy of code above.
 			read -r install3
 			case "$install3" in
 			 [Yy])
-				 mv "${fields[$i]}" /data/data/com.termux/files/usr/bin || {
-					 echo "Failed to move binary: ${fields[$i]}"
-					 exit 1
+				 mv "${fields[$i]}" /data/data/com.termux/files/usr/bin 2> error.log || {
+					 echo -e "$red"Failed to move binary:"$lblue ${fields[$i]}";
+					 exit 1;
 				 }
 				 ;;
 			 [Nn])
-				 echo "Skipping ${fields[$i]}"
+				 echo -e "Skipping"$lblue" ${fields[$i]}"
 				 ;;
 			      *)
-				 echo "Invalid input. Skipping ${fields[$i]}"
+				 echo -e ""$red"Invalid input."$nc" Skipping "$lblue"${fields[$i]}"
 			        ;;
 			esac
 		done
