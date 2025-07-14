@@ -24,14 +24,14 @@ read -r install # input -r flag for avoiding weird symbols from backspace
 if [ $install == "Y" ]; then # Putting ALL binaries to termux default bin
 	chmod +x *
 	for i in "${!fields[@]}"; do
-		mv ${fields[$i]} /data/data/com.termux/files/usr/bin 2> error.log || { echo -e "$red""Failed to put binaries to /bin! Exiting! $nc";
+		mv ${fields[$i]} /data/data/com.termux/files/usr/bin 2>> error.log || { echo -e "$red""Failed to put binaries to /bin! Exiting! $nc";
 	       	exit 1; }
 		
 	done
 elif [ $install == "y" ]; then # Same thing 
 	chmod +x *
 	for i in "${!fields[@]}"; do
-		mv ${fields[$i]} /data/data/com.termux/files/usr/bin 2> error.log || { echo -e "$red""Failed to put binaries to /bin! Exiting! $nc";
+		mv ${fields[$i]} /data/data/com.termux/files/usr/bin 2>> error.log || { echo -e "$red""Failed to put binaries to /bin! Exiting! $nc";
 	       	exit 1; }
 
 	done
@@ -45,7 +45,7 @@ elif [ $install == "N" ]; then # BRAND NEW PICKY INSTALL!
 			read -r install3
 			case "$install3" in # added cases
 			 [Yy])
-				 mv "${fields[$i]}" /data/data/com.termux/files/usr/bin 2> error.log || {
+				 mv "${fields[$i]}" /data/data/com.termux/files/usr/bin 2>> error.log || {
 					 echo -e "$red"Failed to move binary:"$lblue ${fields[$i]}";
 					 exit 1; # || that code under || triggers only if something fails
 				 }
@@ -64,7 +64,7 @@ elif [ $install == "N" ]; then # BRAND NEW PICKY INSTALL!
 			read -r install3
 			case "$install3" in
 			 [Yy])
-				 mv "${fields[$i]}" /data/data/com.termux/files/usr/bin 2> error.log || {
+				 mv "${fields[$i]}" /data/data/com.termux/files/usr/bin 2>> error.log || {
 					 echo -e "$red"Failed to move binary:"$lblue ${fields[$i]}";
 					 exit 1;
 				 }
@@ -90,7 +90,7 @@ elif [ $install == "n" ]; then
 			read -r install3
 			case "$install3" in
 			 [Yy])
-				 mv "${fields[$i]}" /data/data/com.termux/files/usr/bin 2> error.log || {
+				 mv "${fields[$i]}" /data/data/com.termux/files/usr/bin 2>> error.log || {
 					 echo -e "$red"Failed to move binary:"$lblue ${fields[$i]}";
 					 exit 1;
 				 }
@@ -110,7 +110,7 @@ elif [ $install == "n" ]; then
 			case "$install3" in
 			 [Yy])
 				 chmod +x *
-				 mv "${fields[$i]}" /data/data/com.termux/files/usr/bin 2> error.log || {
+				 mv "${fields[$i]}" /data/data/com.termux/files/usr/bin 2>> error.log || {
 					 echo -e "$red""Failed to move binary:$lblue ${fields[$i]}";
 					 exit 1;
 				 }
