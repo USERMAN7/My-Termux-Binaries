@@ -36,8 +36,8 @@ elif [ $install == "y" ]; then # Same thing
 
 	done
 elif [ $install == "N" ]; then # BRAND NEW PICKY INSTALL!
-	echo -e "$yel""Whould you like to select which binaries you want to install?"$nc
-	echo -e "$green"Y"$nc"/"$red"n"$nc"?
+	echo -e "$yel""Would you like to select which binaries you want to install?"$nc
+	echo -e "$green"Y"$nc"/"$red"n"$nc"?"$nc"
 	read -r install2 # Man that's a mangle of elif,ifs.. Should change to cases 
 	if [ $install2 == "Y" ]; then
 	       for i in "${!fields[@]}"; do
@@ -78,55 +78,56 @@ elif [ $install == "N" ]; then # BRAND NEW PICKY INSTALL!
 			esac
 		done
 	else
-		echo "Exit!"; exit 
+		echo -e "$red"Exit!"$nc"; exit 
 	fi		
 elif [ $install == "n" ]; then
-	echo "Whould you like to select which binaries you want to install?"
-	echo "Y/n ?"
+	echo -e "$yel""Whould you like to select which binaries you want to install?"$nc
+	echo -e "$green"Y"$nc"/"$red"n"$nc"?
 	read -r install2
 	if [ $install2 == "Y" ]; then
 	       for i in "${!fields[@]}"; do
-			echo "Would you like to install ${fields[$i]}? (Y/n)"
+			echo -e "$yel""Would you like to install"$lblue" ${fields[$i]}"$nc"? ("$green"Y"$nc"/"$red"n"$nc""
 			read -r install3
 			case "$install3" in
 			 [Yy])
-				 mv "${fields[$i]}" /data/data/com.termux/files/usr/bin || {
-					 echo "Failed to move binary: ${fields[$i]}"
-					 exit 1
+				 mv "${fields[$i]}" /data/data/com.termux/files/usr/bin 2> error.log || {
+					 echo -e "$red"Failed to move binary:"$lblue ${fields[$i]}";
+					 exit 1;
 				 }
 				 ;;
 			 [Nn])
-				 echo "Skipping ${fields[$i]}"
+				 echo -e "Skipping"$lblue" ${fields[$i]}"
 				 ;;
 			      *)
-				 echo "Invalid input. Skipping ${fields[$i]}"
+				 echo -e "$red""Invalid input."$nc" Skipping "$lblue"${fields[$i]}";
 			        ;;
 			esac
 		done		
 	elif [ $install2 == "y" ]; then
 		for i in "${!fields[@]}"; do
-			echo "Would you like to install ${fields[$i]}? (Y/n)"
+			echo -e "$yel""Would you like to install"$lblue" ${fields[$i]}"$nc"? ("$green"Y"$nc"/"$red"n"$nc")"
 			read -r install3
 			case "$install3" in
 			 [Yy])
-				 mv "${fields[$i]}" /data/data/com.termux/files/usr/bin || {
-					 echo "Failed to move binary: ${fields[$i]}"
-					 exit 1
+				 chmod +x *
+				 mv "${fields[$i]}" /data/data/com.termux/files/usr/bin 2> error.log || {
+					 echo -e "$red""Failed to move binary:$lblue ${fields[$i]}";
+					 exit 1;
 				 }
 				 ;;
 			 [Nn])
-				 echo "Skipping ${fields[$i]}"
+				 echo -e "Skipping "$lblue"${fields[$i]}"
 				 ;;
 			      *)
-				 echo "Invalid input. Skipping ${fields[$i]}"
+				 echo -e "$red""Invalid input."$nc" Skipping"$lblue" ${fields[$i]}"
 			        ;;
 			esac
 		done
 	else
-		echo "Exit!"; exit 
+		echo -e "$red""Exit!"$nc; exit 
 	fi	
 else
-       echo "Exiting!"; exit 1
+       echo -e "$red""Exiting!"$nc; exit 1
 fi
 
 #read install
